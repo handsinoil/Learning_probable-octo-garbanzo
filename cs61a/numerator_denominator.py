@@ -64,3 +64,23 @@ def denom(x):
 t = rational(1, 3)
 print_rational(t)
 print_rational(add_rational(t, t))
+
+# Functional realization
+def pair(x, y):
+    """Return a function that represents a pair."""
+
+    def get(index):
+        if index == 0:
+            return x
+        elif index == 1:
+            return y
+
+    return get
+
+def select(p, i):
+    """Return the element at index i of pair p."""
+    return p(i)
+
+p = pair(20, 14)
+print(select(p, 0))
+
