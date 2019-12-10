@@ -2,8 +2,10 @@
 ________________________|Clamping_____
 dict{Child:[parent], }<--[]<--stdin(input_data.txt)
 ^| - обработать вх. данные
- | - создать структуру наследования
- | - добавить туда связи
+ | - структурa наследования <-[]<-list date
+                             ^| - split generator
+                              | - stacker
+                              | - create structure
  | - проверить наследование
 """
 def treatment(s: list) -> tuple:
@@ -29,23 +31,36 @@ def stacker(f1, struct):
 			else:
 				struct[i[0]] = i[1].split(' ')
 
-
-
-
 def create_struct(n_lst, f1, f2):
 	struct = dict()
 	gen = split_gen(n_lst)
 	stacker(gen, struct)
 	return struct
 
+def split_q(q_lst, struc):
+	#
+	for i in q_lst:
+		parent, child = i.strip().split(" ")
+		if child and parent in struc:
+			yield parent, child, None
+		else:
+			yield print("No")
+
+def check(q_lst, split_q):
+	triger = "No"
+	for i in split_q(q_lst):
+		parent, child = i
+
+	pass
+
+def rec():
+	pass
 
 def print_info(o, s_o):
 	print(s_o, id(o))
 	print('_____')
 	print(o)
 	print('_____')
-
-
 
 import sys
 s = sys.stdin.readlines()
