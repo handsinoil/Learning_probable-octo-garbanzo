@@ -42,19 +42,30 @@ def split_q(q_lst, struc):
 	for i in q_lst:
 		parent, child = i.strip().split(" ")
 		if child and parent in struc:
-			yield parent, child, None
-		else:
-			yield print("No")
+			yield parent, child
+
 
 def check(q_lst, split_q):
 	triger = "No"
-	for i in split_q(q_lst):
-		parent, child = i
+	for _ in split_q(q_lst):
+		parent, child = _
+		for i in struct[child]:
+			f = rec(struc, parent, i)
+		print(f)
 
 	pass
 
-def rec():
-	pass
+def rec(struc, parent, child):
+	flag = False
+	while not flag:
+
+		if child in struc[child]:
+			flag = True
+		elif parent in struc[child]:
+			flag = True
+		else:
+			return rec
+
 
 def print_info(o, s_o):
 	print(s_o, id(o))
