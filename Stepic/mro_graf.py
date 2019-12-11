@@ -37,39 +37,40 @@ def create_struct(n_lst, f1, f2):
 	stacker(gen, struct)
 	return struct
 
-def split_q(q_lst, struc):
+def split_q(struc, q_lst):
 	#
 	for i in q_lst:
-		parent, child = i.strip().split(" ")
+		q_i = i.strip().split(" ")
+		if len(q_i)==1:
+			yield 0, 0
+		parent, child = q_i
 		if child and parent in struc:
 			yield parent, child
-
-
-def check(q_lst, split_q):
-	triger = "No"
-	for _ in split_q(q_lst):
-		parent, child = _
-		for i in struct[child]:
-			f = rec(struc, parent, i)
-		print(f)
-
-	pass
-
-def rec(struc, parent, child):
-	flag = False
-	while not flag:
-
-		if child in struc[child]:
-			flag = True
-		elif parent in struc[child]:
-			flag = True
 		else:
-			return rec
+			yield 0, 0
 
+def rec(d, par, chi):
+	if par in d[chi]:
+		return "Yes"
+	elif chi in d[chi]:
+		return  "No"
+	elif chi not in d[chi] and par not in d[chi]:
+		for i in d[chi]:
+			return rec(d, par, i)
+
+def check(struc, q_lst, split_q, rec):
+	#
+	for _ in split_q(struc, q_lst):
+		parent, child = _
+		if parent != 0:
+			ansver = rec(struc, parent, child)
+		else:
+			ansver = "No"
+		print(ansver)
 
 def print_info(o, s_o):
 	print(s_o, id(o))
-	print('_____')
+
 	print(o)
 	print('_____')
 
@@ -79,7 +80,7 @@ n_lst, q_lst = treatment(s)
 struc = create_struct(n_lst, split_gen, stacker)
 
 print_info(n_lst, 'n_lst')
-
+print_info(q_lst, 'q_lst')
 print_info(struc, 'struct')
-# print_info(q_lst, 'q_lst')
-# check_inheritance(q_lst)
+
+check(struc, q_lst, split_q, rec)
