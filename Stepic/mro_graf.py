@@ -6,7 +6,8 @@ dict{Child:[parent], }<--[]<--stdin(input_data.txt)
                              ^| - split generator
                               | - stacker
                               | - create structure
- | - проверить наследование
+ | - найти путь от реб к род
+ | - вывести результат проверки
 """
 def treatment(s: list) -> tuple:
 	"""processing in std"""
@@ -23,9 +24,7 @@ def split_gen(n_lst):
 def stacker(f1, struct):
 
 	for i in f1:
-		if len(i) == 1:
-			struct[i[0]] = i
-		elif len(i)>1:
+		if len(i)>1:
 			if i[0] in struct:
 				struct[i[0]].extend(i[1].split(' '))
 			else:
@@ -37,36 +36,7 @@ def create_struct(n_lst, f1, f2):
 	stacker(gen, struct)
 	return struct
 
-def split_q(struc, q_lst):
-	#
-	for i in q_lst:
-		q_i = i.strip().split(" ")
-		if len(q_i)==1:
-			yield 0, 0
-		parent, child = q_i
-		if child and parent in struc:
-			yield parent, child
-		else:
-			yield 0, 0
 
-def rec(d, par, chi):
-	if par in d[chi]:
-		return "Yes"
-	elif chi in d[chi]:
-		return  "No"
-	elif chi not in d[chi] and par not in d[chi]:
-		for i in d[chi]:
-			return rec(d, par, i)
-
-def check(struc, q_lst, split_q, rec):
-	#
-	for _ in split_q(struc, q_lst):
-		parent, child = _
-		if parent != 0:
-			ansver = rec(struc, parent, child)
-		else:
-			ansver = "No"
-		print(ansver)
 
 def print_info(o, s_o):
 	print(s_o, id(o))
@@ -74,13 +44,34 @@ def print_info(o, s_o):
 	print(o)
 	print('_____')
 
+def find_path(graph, chi, par, path=[]):
+	path = path + [chi]
+	if chi == par:
+		return path
+	if chi not in graph:
+		return None
+	for node in graph[chi]:
+		if node not in path:
+			newpath = find_path(graph, node, par, path)
+			if newpath: return newpath
+
+
 import sys
 s = sys.stdin.readlines()
 n_lst, q_lst = treatment(s)
 struc = create_struct(n_lst, split_gen, stacker)
+for i in q_lst:
+	parent, child = i.split(" ")
+	if parent == child:
+		print("Yes")
+	else:
+		ansver = find_path(struc, child, parent)
+		if ansver == None:
+			print("No")
+		else:
+			print("Yes")
 
-print_info(n_lst, 'n_lst')
-print_info(q_lst, 'q_lst')
-print_info(struc, 'struct')
 
-check(struc, q_lst, split_q, rec)
+
+
+
