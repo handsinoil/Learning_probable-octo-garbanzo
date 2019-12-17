@@ -7,7 +7,7 @@ with open('angle2.in') as angle2in:
 
 print(x1, y1, x2, y2 )
 def scalar(x1, y1, x2, y2):
-	return x1 * x2 + y1 * y2
+	return abs(x1 * x2 + y1 * y2)
 
 
 def module(x, y):
@@ -18,7 +18,5 @@ cos = scalar(x1, y1, x2, y2) / (module(x1, y1) * module(x2, y2))
 
 ang = acos(cos)
 
-a = decimal.Decimal(ang)
-
 with open('angle2.out', mode='wt') as o:
-	print('{:.5}'.format(a), file=o)
+	print('{:.5}'.format(ang), file=o)
