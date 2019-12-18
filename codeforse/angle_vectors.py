@@ -19,4 +19,4 @@ cos = scalar(x1, y1, x2, y2) / (module(x1, y1) * module(x2, y2))
 ang = acos(cos)
 
 with open('angle2.out', mode='wt') as o:
-	print('{:7.5f}'.format(ang), file=o)
+	print('{:8.6f}'.format(ang), file=o)
