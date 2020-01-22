@@ -1,0 +1,20 @@
+15
+a
+b : a
+c : a
+y : a
+d : b c y
+e : d
+f : d
+g : f
+x
+y : x
+z : x
+v : y z
+w : v
+l
+k : l
+3
+a g
+x e
+l w
